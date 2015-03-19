@@ -8,10 +8,11 @@ var source = require('vinyl-source-stream');
 
 gulp.task('javascript', function () {
    return browserify({
+      entries: ['./main.js'],
       basedir: './resources/assets/javascript',
       debug: true
    })
-   .transform(babelify).
+   .transform(babelify)
    .bundle()
    .on('error', function (err) { console.log('Error: ' + err.message); })
    .pipe(source('bundle.js'))
@@ -19,4 +20,15 @@ gulp.task('javascript', function () {
    .pipe(gulp.dest('./public/'));
 });
 
-gulp.task('default', ['javascript']);
+gulp.task('test', function () {
+   console.log('Running test task');
+});
+
+gulp.task('es6-shim', function () {
+   return gulp.src('./node_modules/es6-shim/es6-shim.js')
+   .pipe(gulp.dest('./public/'));
+});
+
+gulp.task('prepare', ['test', 'es6-shim', 'javascript']);
+
+gulp.task('default', ['es6-shim', 'javascript']);

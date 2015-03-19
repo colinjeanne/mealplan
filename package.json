@@ -2,12 +2,13 @@
   "name": "MealPlans",
   "version": "1.0.0",
   "description": "Manages both recipes and meal plans",
-  "main": "gulpfile.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "javascript": "gulp javascript",
+    "prepare": "gulp prepare",
+    "test": "gulp test"
   },
   "author": "Colin Jeanne <colinjeanne@hotmail.com> (http://www.colinjeanne.net)",
   "license": "MIT",
