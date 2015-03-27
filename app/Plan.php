@@ -41,7 +41,8 @@ class Plan extends Eloquent {
          ->select(DB::raw('count(*) as tagCount, tag'))
          ->leftJoin('plan_tag', 'plans.id', '=', 'plan_tag.plan_id')
          ->whereNull('plan_id')
-         ->where('tagCount', '<>', 0);
+         ->groupBy('tag')
+         ->having('tagCount', '<>', 0);
       
       return $tagged->union($untagged)->get();
    }

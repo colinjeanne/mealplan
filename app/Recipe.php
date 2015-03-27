@@ -68,7 +68,8 @@ class Recipe extends Eloquent {
          ->select(DB::raw('count(*) as tagCount, tag'))
          ->leftJoin('recipe_tag', 'recipes.id', '=', 'recipe_tag.recipe_id')
          ->whereNull('recipe_id')
-         ->where('tagCount', '<>', 0);
+         ->groupBy('tag')
+         ->having('tagCount', '<>', 0);
       
       return $tagged->union($untagged)->get();
    }
