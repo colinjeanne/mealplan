@@ -4,8 +4,8 @@
    <title>Kathy's Meal Plan Site</title>
    <link rel="stylesheet" href="style.css">
    <script src="es6-shim.js"></script>
-   <script src="meal-plan-api.js"></script>
-   <script src="meal-plan-ui.js"></script>
+   <script src="fetch.js"></script>
+   <script src="main.js"></script>
    <script src="https://apis.google.com/js/client:platform.js" async defer></script>
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">

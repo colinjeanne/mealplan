@@ -1,34 +1,53 @@
 'use strict';
 
-var babelify = require('babelify');
+var babel = require('gulp-babel');
 var browserify = require('browserify');
 var gulp = require('gulp');
-var rename = require('gulp-rename');
+var jasmine = require('gulp-jasmine');
 var source = require('vinyl-source-stream');
 
-gulp.task('javascript', function () {
+gulp.task('browserify', function () {
    return browserify({
-      entries: ['./main.js'],
-      basedir: './resources/assets/javascript',
-      debug: true
-   })
-   .transform(babelify)
-   .bundle()
-   .on('error', function (err) { console.log('Error: ' + err.message); })
-   .pipe(source('bundle.js'))
-   .pipe(rename('main.js'))
-   .pipe(gulp.dest('./public/'));
+         entries: ['./main.js'],
+         basedir: './build/src',
+         debug: true
+      })
+      .bundle()
+      .on('error', function (err) { console.log('Error: ' + err.message); })
+      .pipe(source('main.js'))
+      .pipe(gulp.dest('./public/'));
 });
 
-gulp.task('test', function () {
+gulp.task('babel-src', function () {
+   return gulp.src('./resources/assets/javascript/**/*.js')
+      .pipe(babel())
+      .pipe(gulp.dest('./build/src/'));
+});
+
+gulp.task('babel-test', function () {
+   return gulp.src('./tests/javascript/*.js')
+      .pipe(babel())
+      .pipe(gulp.dest('./build/test/'));
+});
+
+gulp.task('test', ['babel-src', 'babel-test'], function () {
    console.log('Running test task');
+   return gulp.src('./build/test/*.js')
+      .pipe(jasmine());
 });
 
 gulp.task('es6-shim', function () {
    return gulp.src('./node_modules/es6-shim/es6-shim.js')
-   .pipe(gulp.dest('./public/'));
+      .pipe(gulp.dest('./public/'));
 });
 
-gulp.task('prepare', ['test', 'es6-shim', 'javascript']);
+gulp.task('fetch', function () {
+   return gulp.src('./node_modules/whatwg-fetch/fetch.js')
+      .pipe(gulp.dest('./public/'));
+});
 
-gulp.task('default', ['es6-shim', 'javascript']);
+gulp.task('external-js', ['es6-shim', 'fetch']);
+
+gulp.task('prepare', ['external-js', 'test', 'browserify']);
+
+gulp.task('default', ['external-js', 'browserify']);
