@@ -4,7 +4,7 @@
 
 @media (max-width: 767px) {
    body {
-      padding: 0em;
+      padding: 0;
    }
 
    header {
@@ -108,7 +108,7 @@
       cursor: pointer;
    }
 
-   #listing li:hover {
+   #addItem:hover, #listing li:hover {
       color: white;
       background-color: darkblue;
    }
@@ -266,7 +266,7 @@
       cursor: pointer;
    }
 
-   #listing li:hover {
+   #addItem:hover, #listing li:hover {
       color: white;
       background-color: darkblue;
    }
