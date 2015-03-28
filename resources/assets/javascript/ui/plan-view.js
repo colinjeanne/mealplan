@@ -123,7 +123,7 @@ export default class {
       plan,
       editMode = false,
       updatePlanCallback) {
-      const replaceView = (view) => {
+      const replaceView = view => {
          if (this.view && this.view.parentNode) {
             const parentNode = this.view.parentNode;
             parentNode.removeChild(this.view);
@@ -136,7 +136,7 @@ export default class {
       let displayPlan;
       let editPlan;
 
-      displayPlan = (planToDisplay) => {
+      displayPlan = planToDisplay => {
          replaceView(
             makeDisplayView(
                templateEngine,
@@ -145,16 +145,16 @@ export default class {
                editPlan));
       };
 
-      editPlan = (planToEdit) => {
+      editPlan = planToEdit => {
          replaceView(
             makeEditView(
                templateEngine,
                mealPlanApi,
                planToEdit,
-               (updatedPlan) => {
-                  displayPlan(updatedPlan);
-                  updatePlanCallback(updatedPlan);
-               }));
+               updatedPlan =>
+                  updatePlanCallback(updatedPlan)
+                  .then(displayPlan)
+               ));
       };
 
       if (editMode) {

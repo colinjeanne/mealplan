@@ -125,7 +125,7 @@ export default class {
       isPartOfPlan = false,
       editMode = false,
       updateRecipeCallback) {
-      const replaceView = (view) => {
+      const replaceView = view => {
          if (this.view && this.view.parentNode) {
             const parentNode = this.view.parentNode;
             parentNode.removeChild(this.view);
@@ -138,7 +138,7 @@ export default class {
       let displayRecipe;
       let editRecipe;
 
-      displayRecipe = (recipeToDisplay) => {
+      displayRecipe = recipeToDisplay => {
          replaceView(
             makeDisplayView(
                templateEngine,
@@ -148,16 +148,16 @@ export default class {
                editRecipe));
       };
 
-      editRecipe = (recipeToEdit) => {
+      editRecipe = recipeToEdit => {
          replaceView(
             makeEditView(
                templateEngine,
                mealPlanApi,
                recipeToEdit,
-               (updatedRecipe) => {
-                  displayRecipe(updatedRecipe);
-                  updateRecipeCallback(updatedRecipe);
-               }));
+               updatedRecipe =>
+                  updateRecipeCallback(updatedRecipe)
+                  .then(displayRecipe)
+               ));
       }
 
       if (editMode) {

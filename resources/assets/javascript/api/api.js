@@ -144,7 +144,8 @@ class ShoppingList {
       return authorizedFetch('/me/shoppingList', {
          method: 'put',
          body: JSON.stringify(this.items)
-      });
+      })
+      .then(response => response.json());
    }
 }
 
@@ -408,7 +409,8 @@ export class Recipe {
       return authorizedFetch(uri, {
          method: method,
          body: JSON.stringify(this)
-      });
+      })
+      .then(response => response.json());
    }
 
    /**
@@ -536,7 +538,8 @@ export class Plan {
       return authorizedFetch(uri, {
          method: method,
          body: JSON.stringify(this)
-      });
+      })
+      .then(response => response.json());
    }
 
    /**

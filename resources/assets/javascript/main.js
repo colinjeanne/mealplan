@@ -80,15 +80,23 @@ document.addEventListener('DOMContentLoaded', () => {
       listings.updateListings(tagListings);
    };
 
-   const recipeUpdatedCallback = recipe =>
-      recipe.save()
+   const recipeUpdatedCallback = recipe => {
+      let updatedRecipe;
+      return recipe.save()
+         .then(savedRecipe => updatedRecipe = savedRecipe)
          .then(showRecipeTags)
-         .catch(err => alert(err));
+         .catch(err => alert(err))
+         .then(() => updatedRecipe);
+   };
 
-   const planUpdatedCallback = plan =>
-      plan.save()
+   const planUpdatedCallback = plan => {
+      let updatedPlan;
+      return plan.save()
+         .then(savedPlan => updatedPlan = savedPlan)
          .then(showPlanTags)
-         .catch(err => alert(err));
+         .catch(err => alert(err))
+         .then(() => updatedPlan);
+   };
 
    const displayRecipe = (recipe, editMode = false) => {
       const recipeView = new RecipeView(
