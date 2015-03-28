@@ -7,7 +7,7 @@ export default class {
 
       this.toggleElement.addEventListener(
          'click',
-         () => this.toggleMenus());
+         () => this.toggle());
    }
 
    toggle() {
