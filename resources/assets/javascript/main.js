@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
          return result;
       });
 
-      listings.setListings(tagListings);
+      listings.updateListings(tagListings);
    };
 
    const recipeUpdatedCallback = recipe =>
@@ -128,6 +128,17 @@ document.addEventListener('DOMContentLoaded', () => {
       );
    };
 
+   const sortByTitle = (a, b) => {
+      let result = 0;
+      if (a.title < b.title) {
+         result = -1;
+      } else if (a.title > b.title) {
+         result = 1;
+      }
+
+      return result;
+   };
+
    const setPlanListings = plans => {
       const planListings = plans.map(plan => {
          return {
@@ -135,18 +146,9 @@ document.addEventListener('DOMContentLoaded', () => {
             data: plan,
             handler: displayPlan
          };
-      }).sort((a, b) => {
-         let result = 0;
-         if (a.title < b.title) {
-            result = -1;
-         } else if (a.title > b.title) {
-            result = 1;
-         }
+      }).sort(sortByTitle);
 
-         return result;
-      });
-
-      listings.setListings(planListings);
+      listings.updateListings(planListings);
    };
 
    const showPlanListings = options =>
@@ -159,18 +161,9 @@ document.addEventListener('DOMContentLoaded', () => {
             data: recipe,
             handler: displayRecipe
          };
-      }).sort((a, b) => {
-         let result = 0;
-         if (a.title < b.title) {
-            result = -1;
-         } else if (a.title > b.title) {
-            result = 1;
-         }
+      }).sort(sortByTitle);
 
-         return result;
-      });
-
-      listings.setListings(recipeListings);
+      listings.updateListings(recipeListings);
    };
 
    const showRecipeListings = options =>

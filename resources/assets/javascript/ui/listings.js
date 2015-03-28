@@ -16,7 +16,7 @@ export default class {
       this.container = container;
    }
 
-   setListings(listings) {
+   updateListings(listings) {
       if (!Array.isArray(listings)) {
          throw new TypeError('expected array');
       }
