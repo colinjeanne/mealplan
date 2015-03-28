@@ -1,5 +1,5 @@
 *[data-template-name] {
-   display: none;
+   display: none !important;
 }
 
 @media (max-width: 767px) {

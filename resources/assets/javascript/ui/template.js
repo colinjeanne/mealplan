@@ -30,7 +30,7 @@ const findTemplate = (name, templates) => {
    );
 
    if (!templateElement) {
-      throw new Error(`Template "{name}" not found`);
+      throw new Error(`Template "${name}" not found`);
    }
 
    return templateElement;

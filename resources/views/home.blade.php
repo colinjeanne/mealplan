@@ -38,9 +38,9 @@
             <input type="radio" name="tab" id="recipes">
             <label for="recipes">Recipes</label>
          </li>
-         <li>
-            <input type="radio" name="tab" id="shoppingList">
-            <label for="shoppingList">My Shopping List</label>
+         <li data-template-name="mainNavigationTab">
+            <input type="radio" name="tab">
+            <label></label>
          </li>
       </ul>
    </nav>
