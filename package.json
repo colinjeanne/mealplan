@@ -20,7 +20,8 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "es6-shim": "^0.27.1",
+    "es6-shim": "^0.24.0",
+    "es6-symbol": "^2.0.1",
     "whatwg-fetch": "^0.7.0"
   }
 }

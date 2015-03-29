@@ -41,12 +41,23 @@ gulp.task('es6-shim', function () {
       .pipe(gulp.dest('./public/'));
 });
 
+gulp.task('es6-symbol', function () {
+   return browserify({
+         entries: ['./implement.js'],
+         basedir: './node_modules/es6-symbol'
+      })
+      .bundle()
+      .on('error', function (err) { console.log('Error: ' + err.message); })
+      .pipe(source('es6-symbol.js'))
+      .pipe(gulp.dest('./public/'));
+});
+
 gulp.task('fetch', function () {
    return gulp.src('./node_modules/whatwg-fetch/fetch.js')
       .pipe(gulp.dest('./public/'));
 });
 
-gulp.task('external-js', ['es6-shim', 'fetch']);
+gulp.task('external-js', ['es6-shim', 'es6-symbol', 'fetch']);
 
 gulp.task('prepare', ['external-js', 'test', 'browserify']);
 

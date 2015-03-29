@@ -4,6 +4,7 @@
    <title>Kathy's Meal Plan Site</title>
    <link rel="stylesheet" href="style.css">
    <script src="es6-shim.js"></script>
+   <script src="es6-symbol.js"></script>
    <script src="fetch.js"></script>
    <script src="main.js"></script>
    <script src="https://apis.google.com/js/client:platform.js" async defer></script>
