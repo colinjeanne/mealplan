@@ -2,19 +2,151 @@
    display: none !important;
 }
 
+header {
+   display: block;
+   font-size: 130%;
+   font-family: sans-serif;
+}
+
+body > header {
+   margin-bottom: 0.5em;
+}
+
+#content section header {
+   font-size: 125%;
+}
+
+#content section section header {
+   font-size: 110%;
+}
+
+#mainNavigation {
+   padding: 0;
+   font-family: sans-serif;
+}
+
+#mainNavigation ul {
+   margin: 0;
+   padding: 0;
+}
+
+#mainNavigation li {
+   margin: 0.5em 0;
+}
+
+#mainNavigation label {
+   padding: 0.5em 0.5em;
+   color: white;
+   background-color: cornflowerblue;
+   cursor: pointer;
+}
+
+#mainNavigation input {
+   display: none;
+}
+
+#mainNavigation label:hover {
+   color: white;
+   background-color: darkblue;
+}
+
+#mainNavigation input:checked ~ label {
+   color: white;
+   background-color: blue;
+}
+
+#listing {
+   font-family: sans-serif;
+}
+
+#listing ul {
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+}
+
+#listing li {
+   margin: 0.5em 0;
+   padding: 0.5em 0.5em;
+   color: white;
+   background-color: cornflowerblue;
+   cursor: pointer;
+}
+
+#addItem:hover, #listing li:hover {
+   color: white;
+   background-color: darkblue;
+}
+
+#search {
+   margin-top: 0.5em;
+   width: 100%;
+   box-sizing: border-box;
+}
+
+#addItem {
+   margin: 0.5em 0;
+   padding: 0.5em 0.5em;
+   color: white;
+   background-color: cornflowerblue;
+   cursor: pointer;
+   border-width: 0;
+   display: block;
+   width: 100%;
+   font-size: inherit;
+   text-align: left;
+}
+
+#content {
+   margin: 0;
+   padding: 0.5em;
+}
+
+.clearShoppingList {
+   display: block;
+}
+
+.ingredients {
+   list-style-type: none;
+   padding-left: 0;
+}
+
+.recipeTitles {
+   list-style-type: none;
+   padding-left: 0;
+}
+
+.tags {
+   list-style-type: none;
+   padding-left: 0;
+}
+
+.tags li {
+   display: inline-block;
+   margin: 0;
+   padding-right: 0.25em;
+}
+
+.plan {
+   padding-left: 1em;
+}
+
+.recipe > header, .plan > header {
+   position: relative;
+   left: -1em;
+}
+
+.recipe {
+   padding-left: 1em;
+}
+
+#userContainer {
+   float: right;
+}
+
 @media (max-width: 767px) {
    body {
       padding: 0;
-   }
-
-   header {
-      display: block;
-      font-size: 130%;
-      font-family: sans-serif;
-   }
-
-   body > header {
-      margin-bottom: 0.5em;
    }
    
    #menuIcon {
@@ -36,147 +168,21 @@
       height: 29px;
       vertical-align: bottom;
    }
-
-   #content section header {
-      font-size: 125%;
-   }
-
-   #content section section header {
-      font-size: 110%;
-   }
-
-   #mainNavigation {
-      padding: 0;
-      font-family: sans-serif;
-   }
    
    #mainNavigation.hiddenMenu {
       display: none;
    }
 
-   #mainNavigation ul {
-      margin: 0;
-      padding: 0;
-   }
-   
-   #mainNavigation input {
-      display: none;
-   }
-
    #mainNavigation li {
       display: block;
-      margin: 0.5em 0;
    }
 
    #mainNavigation label {
       display: block;
-      padding: 0.5em 0.5em;
-      color: white;
-      background-color: cornflowerblue;
-      cursor: pointer;
-   }
-
-   #mainNavigation label:hover {
-      color: white;
-      background-color: darkblue;
-   }
-
-   #mainNavigation input:checked ~ label {
-      color: white;
-      background-color: blue;
-   }
-
-   #listing {
-      font-family: sans-serif;
    }
    
    #listing.hiddenMenu {
       display: none;
-   }
-
-   #listing ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-   }
-
-   #listing li {
-      margin: 0.5em 0;
-      padding: 0.5em 0.5em;
-      color: white;
-      background-color: cornflowerblue;
-      cursor: pointer;
-   }
-
-   #addItem:hover, #listing li:hover {
-      color: white;
-      background-color: darkblue;
-   }
-   
-   #search {
-      margin-top: 0.5em;
-      width: 100%;
-      box-sizing: border-box;
-   }
-   
-   #addItem {
-      margin: 0.5em 0;
-      padding: 0.5em 0.5em;
-      color: white;
-      background-color: cornflowerblue;
-      cursor: pointer;
-      border-width: 0;
-      display: block;
-      width: 100%;
-      font-size: inherit;
-      text-align: left;
-   }
-
-   .ingredients {
-      list-style-type: none;
-      padding-left: 0;
-   }
-   
-   .recipeTitles {
-      list-style-type: none;
-      padding-left: 0;
-   }
-
-   .tags {
-      list-style-type: none;
-      padding-left: 0;
-   }
-
-   .tags li {
-      display: inline-block;
-      margin: 0;
-      padding-right: 0.25em;
-   }
-
-   #content {
-      margin: 0;
-      padding: 0.5em;
-   }
-
-   .plan {
-      padding-left: 1em;
-   }
-
-   .recipe > header, .plan > header {
-      position: relative;
-      left: -1em;
-   }
-
-   .recipe {
-      padding-left: 1em;
-   }
-   
-   .clearShoppingList {
-      display: block;
-   }
-
-   #userContainer {
-      float: right;
    }
 }
 
@@ -184,164 +190,37 @@
    body {
       padding: 1em;
    }
-
-   header {
-      display: block;
-      font-size: 130%;
-      font-family: sans-serif;
-   }
-
-   body > header {
-      margin-bottom: 0.5em;
-   }
    
    #menuIcon {
       display: none;
    }
 
-   #content section header {
-      font-size: 125%;
-   }
-
-   #content section section header {
-      font-size: 110%;
-   }
-
    #mainNavigation {
       display: block;
-      padding: 0;
-      font-family: sans-serif;
       border-bottom: solid thin black;
-   }
-
-   #mainNavigation ul {
-      margin: 0;
-      padding: 0;
-   }
-   
-   #mainNavigation input {
-      display: none;
    }
 
    #mainNavigation li {
       display: inline-block;
-      padding: 0.5em 0;
-   }
-   
-   #mainNavigation label {
-      padding: 0.5em 0.5em;
-      color: white;
-      background-color: cornflowerblue;
-      cursor: pointer;
-   }
-
-   #mainNavigation label:hover {
-      color: white;
-      background-color: darkblue;
-   }
-
-   #mainNavigation input:checked ~ label {
-      color: white;
-      background-color: blue;
    }
 
    #listing {
       display: inline-block;
       vertical-align: top;
       width: 10%;
-      font-family: sans-serif;
-   }
-
-   #listing ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-   }
-
-   #listing li {
-      margin: 0.5em 0;
-      padding: 0.5em 0.5em;
-      color: white;
-      background-color: cornflowerblue;
-      cursor: pointer;
-   }
-
-   #addItem:hover, #listing li:hover {
-      color: white;
-      background-color: darkblue;
-   }
-   
-   #search {
-      margin-top: 0.5em;
-      width: 100%;
-      box-sizing: border-box;
-   }
-   
-   #addItem {
-      margin: 0.5em 0;
-      padding: 0.5em 0.5em;
-      color: white;
-      background-color: cornflowerblue;
-      cursor: pointer;
-      border-width: 0;
-      display: block;
-      width: 100%;
-      font-size: inherit;
-      text-align: left;
-   }
-
-   .ingredients {
-      list-style-type: none;
-      padding-left: 0;
    }
    
    .ingredients input.description {
       width: 40em;
    }
-   
-   .recipeTitles {
-      list-style-type: none;
-      padding-left: 0;
-   }
-
-   .tags {
-      list-style-type: none;
-      padding-left: 0;
-   }
-
-   .tags li {
-      display: inline-block;
-      margin: 0;
-      padding-right: 0.25em;
-   }
 
    #content {
       display: inline-block;
       vertical-align: top;
-      margin: 0;
-      padding: 0.5em;
       max-width: 80%;
-   }
-
-   .plan {
-      padding-left: 1em;
-   }
-
-   .recipe > header, .plan > header {
-      position: relative;
-      left: -1em;
-   }
-
-   .recipe {
-      padding-left: 1em;
    }
    
    .clearShoppingList {
-      display: block;
       margin-top: 2em;
-   }
-
-   #userContainer {
-      float: right;
    }
 }
