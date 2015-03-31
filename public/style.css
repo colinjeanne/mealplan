@@ -73,7 +73,7 @@ body > header {
    cursor: pointer;
 }
 
-#addItem:hover, #listing li:hover {
+#listing li:hover {
    color: white;
    background-color: darkblue;
 }
@@ -82,19 +82,6 @@ body > header {
    margin-top: 0.5em;
    width: 100%;
    box-sizing: border-box;
-}
-
-#addItem {
-   margin: 0.5em 0;
-   padding: 0.5em 0.5em;
-   color: white;
-   background-color: cornflowerblue;
-   cursor: pointer;
-   border-width: 0;
-   display: block;
-   width: 100%;
-   font-size: inherit;
-   text-align: left;
 }
 
 #content {

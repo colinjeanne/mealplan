@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
       mealPlanApi.Recipe.getMany
    );
    const listings = new Listings(document.getElementById('listingRoot'));
-   const addItem = document.getElementById('addItem');
    const menuToggle = new MenuToggle(document.getElementById('menuIcon'));
 
    const setContent = content => {
@@ -29,8 +28,16 @@ document.addEventListener('DOMContentLoaded', () => {
       contentNode.appendChild(content);
    };
 
-   const createTagListings = (tags, handler) => {
-      const tagListings = tags.map(tag => {
+   const addNewItemListing = (listings, addNewItemHandler) =>
+      [{
+         title: '+ New',
+         data: null,
+         handler: addNewItemHandler
+      }]
+      .concat(listings);
+
+   const createTagListings = (tags, handler) =>
+      tags.map(tag => {
          const tagName = tag.tag || '<untagged>';
          return {
             title: `${tagName} (${tag.tagCount})`,
@@ -47,9 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
          return result;
       });
-
-      listings.updateListings(tagListings);
-   };
 
    const recipeUpdatedCallback = recipe => {
       let updatedRecipe;
@@ -155,14 +159,22 @@ document.addEventListener('DOMContentLoaded', () => {
    const showPlanTags = () => {
       search.clear();
       mealPlanApi.Plan.tags().then(
-         tags => createTagListings(tags, handlePlanTagSelected)
+         tags => listings.updateListings(
+            addNewItemListing(
+               createTagListings(tags, handlePlanTagSelected),
+               () => displayPlan(null, true))
+            )
       );
    };
 
    const showRecipeTags = () => {
       search.clear();
       mealPlanApi.Recipe.tags().then(
-         tags => createTagListings(tags, handleRecipeTagSelected)
+         tags => listings.updateListings(
+            addNewItemListing(
+               createTagListings(tags, handleRecipeTagSelected),
+               () => displayRecipe(null, true))
+            )
       );
    };
 
@@ -170,26 +182,12 @@ document.addEventListener('DOMContentLoaded', () => {
       showPlanTags();
       search.dataSource = mealPlanApi.Plan.getMany;
       search.resultsHandler = setPlanListings;
-
-      addItem.removeEventListener('click', () =>
-         displayRecipe(null, true)
-      );
-      addItem.addEventListener('click', () =>
-         displayPlan(null, true)
-      );
    };
 
    const handleRecipesTab = () => {
       showRecipeTags();
       search.dataSource = mealPlanApi.Recipe.getMany;
       search.resultsHandler = setRecipeListings;
-
-      addItem.removeEventListener('click', () =>
-         displayPlan(null, true)
-      );
-      addItem.addEventListener('click', () =>
-         displayRecipe(null, true)
-      );
    };
 
    const handleShoppingListTab = () => showShoppingList();

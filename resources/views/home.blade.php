@@ -47,7 +47,6 @@
    </nav>
    <nav id="listing">
       <input type="search" id="search" placeholder="Search">
-      <button id="addItem">+ New</button>
       <ul id="listingRoot">
       </ul>
    </nav>
