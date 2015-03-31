@@ -25,9 +25,13 @@ const templatesSymbol = Symbol('template.Templates');
  * @return {Node} The template node
  */
 const findTemplate = (name, templates) => {
-   const templateElement = Array.from(templates).find(template =>
-      template.dataset.templateName === name
-   );
+   const templateElement = Array.from(templates).find(template => {
+      if (template.dataset) {
+         return template.dataset.templateName === name;
+      }
+
+      return template.getAttribute('data-template-name') === name;
+   });
 
    if (!templateElement) {
       throw new Error(`Template "${name}" not found`);
