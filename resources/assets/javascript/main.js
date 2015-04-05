@@ -53,51 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
          return result;
       });
 
-   const recipeUpdatedCallback = recipe => {
-      let updatedRecipe;
-      return recipe.save()
-         .then(savedRecipe => updatedRecipe = savedRecipe)
-         .then(showRecipeTags)
-         .catch(err => alert(err))
-         .then(() => updatedRecipe);
-   };
-
-   const planUpdatedCallback = plan => {
-      let updatedPlan;
-      return plan.save()
-         .then(savedPlan => updatedPlan = savedPlan)
-         .then(showPlanTags)
-         .catch(err => alert(err))
-         .then(() => updatedPlan);
-   };
-
-   const displayRecipe = (recipe, editMode = false) => {
-      const recipeView = new RecipeView(
-         templateEngine,
-         mealPlanApi,
-         recipe,
-         false,
-         editMode,
-         recipeUpdatedCallback);
-
-      menuToggle.hide();
-
-      setContent(recipeView.view);
-   };
-
-   const displayPlan = (plan, editMode = false) => {
-      const planView = new PlanView(
-         templateEngine,
-         mealPlanApi,
-         plan,
-         editMode,
-         planUpdatedCallback);
-
-      menuToggle.hide();
-
-      setContent(planView.view);
-   };
-
    const displayShoppingList = shoppingList => {
       const shoppingListView = new ShoppingListView(
          templateEngine,
@@ -116,6 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
       );
    };
 
+   const handleShoppingListTab = () => showShoppingList();
+
    const sortByTitle = (a, b) => {
       let result = 0;
       if (a.title < b.title) {
@@ -133,6 +90,28 @@ document.addEventListener('DOMContentLoaded', () => {
       setContent(contentList.element());
    };
 
+   const planUpdatedCallback = plan => {
+      let updatedPlan;
+      return plan.save()
+         .then(savedPlan => updatedPlan = savedPlan)
+         .then(showPlanTags)
+         .catch(err => alert(err))
+         .then(() => updatedPlan);
+   };
+   
+   const displayPlan = (plan, editMode = false) => {
+      const planView = new PlanView(
+         templateEngine,
+         mealPlanApi,
+         plan,
+         editMode,
+         planUpdatedCallback);
+
+      menuToggle.hide();
+
+      setContent(planView.view);
+   };
+
    const planDetail = plan => '';
 
    const planItemDataMap = plan => {
@@ -142,6 +121,55 @@ document.addEventListener('DOMContentLoaded', () => {
          data: plan,
          handler: displayPlan
       };
+   };
+
+   const displayPlanContentList = plans =>
+      displayContentList(plans, planItemDataMap);
+
+   const showPlanContentList = options =>
+      mealPlanApi.Plan.getMany(options)
+         .then(displayPlanContentList);
+
+   const handlePlanTagSelected = tag => showPlanContentList({tag});
+
+   const showPlanTags = () => {
+      search.clear();
+      mealPlanApi.Plan.tags().then(
+         tags => listings.updateListings(
+            addNewItemListing(
+               createTagListings(tags, handlePlanTagSelected),
+               () => displayPlan(null, true))
+            )
+      );
+   };
+
+   const handlePlansTab = () => {
+      showPlanTags();
+      search.dataSource = mealPlanApi.Plan.getMany;
+      search.resultsHandler = displayPlanContentList;
+   };
+
+   const recipeUpdatedCallback = recipe => {
+      let updatedRecipe;
+      return recipe.save()
+         .then(savedRecipe => updatedRecipe = savedRecipe)
+         .then(showRecipeTags)
+         .catch(err => alert(err))
+         .then(() => updatedRecipe);
+   };
+
+   const displayRecipe = (recipe, editMode = false) => {
+      const recipeView = new RecipeView(
+         templateEngine,
+         mealPlanApi,
+         recipe,
+         false,
+         editMode,
+         recipeUpdatedCallback);
+
+      menuToggle.hide();
+
+      setContent(recipeView.view);
    };
 
    const recipeDetail = recipe => {
@@ -161,13 +189,6 @@ document.addEventListener('DOMContentLoaded', () => {
       };
    };
 
-   const displayPlanContentList = plans =>
-      displayContentList(plans, planItemDataMap);
-
-   const showPlanContentList = options =>
-      mealPlanApi.Plan.getMany(options)
-         .then(displayPlanContentList);
-
    const displayRecipeContentList = recipes =>
       displayContentList(recipes, recipeItemDataMap);
 
@@ -175,20 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
       mealPlanApi.Recipe.getMany(options)
          .then(displayRecipeContentList);
 
-   const handlePlanTagSelected = tag => showPlanContentList({tag});
-
    const handleRecipeTagSelected = tag => showRecipeContentList({tag});
-
-   const showPlanTags = () => {
-      search.clear();
-      mealPlanApi.Plan.tags().then(
-         tags => listings.updateListings(
-            addNewItemListing(
-               createTagListings(tags, handlePlanTagSelected),
-               () => displayPlan(null, true))
-            )
-      );
-   };
 
    const showRecipeTags = () => {
       search.clear();
@@ -201,19 +209,11 @@ document.addEventListener('DOMContentLoaded', () => {
       );
    };
 
-   const handlePlansTab = () => {
-      showPlanTags();
-      search.dataSource = mealPlanApi.Plan.getMany;
-      search.resultsHandler = displayPlanContentList;
-   };
-
    const handleRecipesTab = () => {
       showRecipeTags();
       search.dataSource = mealPlanApi.Recipe.getMany;
       search.resultsHandler = displayRecipeContentList;
    };
-
-   const handleShoppingListTab = () => showShoppingList();
 
    const existingTabs = [
       {
