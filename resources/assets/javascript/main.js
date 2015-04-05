@@ -215,6 +215,15 @@ document.addEventListener('DOMContentLoaded', () => {
       search.resultsHandler = displayRecipeContentList;
    };
 
+   const displaySousVide = () =>
+      setContent(templateEngine.create('displaySousVide'));
+
+   const handleSousVideTab = () => {
+      search.clear();
+      listings.clear();
+      displaySousVide();
+   };
+
    const existingTabs = [
       {
          tab: 'plans',
@@ -223,6 +232,10 @@ document.addEventListener('DOMContentLoaded', () => {
       {
          tab: 'recipes',
          handler: handleRecipesTab
+      },
+      {
+         tab: 'sousVide',
+         handler: handleSousVideTab
       }
    ];
 

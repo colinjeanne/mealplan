@@ -39,6 +39,10 @@
             <input type="radio" name="tab" id="recipes">
             <label for="recipes">Recipes</label>
          </li>
+         <li>
+            <input type="radio" name="tab" id="sousVide">
+            <label for="sousVide">Sous Vide</label>
+         </li>
          <li data-template-name="mainNavigationTab">
             <input type="radio" name="tab">
             <label></label>
@@ -158,6 +162,28 @@
       <input>
       <button type="button" class="addToShoppingList">Add Item</button>
       <button type="button" class="clearShoppingList">Remove all</button>
+   </section>
+   <section data-template-name="displaySousVide" class="sousVide">
+      <header>Temperatures</header>
+      <dl>
+         <dt>Pulled Pork</dt>
+         <dd>24 hours at 70&deg;C</dd>
+         <dt>Pork Belly</dt>
+         <dd>12 - 24 hours at 77&deg;C</dd>
+         <dt>Chicken</dt>
+         <dd>
+            60 - 90 minutes at 61&deg;C, time varies according to the thickness
+            of the meat
+         </dd>
+         <dt>Beef</dt>
+         <dd>90 minutes at 40&deg;C for medium rare</dd>
+         <dt>Eggs</dt>
+         <dd>1 hour at 63&deg;C for semi-solid center</dd>
+         <dt>Fish</dt>
+         <dd>40 minutes at 50&deg;C for medium rare</dd>
+         <dt>Shrimp</dt>
+         <dd>30 minutes at 58&deg;C for medium</dd>
+      </dl>
    </section>
 </body>
 </html>
