@@ -8,6 +8,10 @@ header {
    font-family: sans-serif;
 }
 
+body {
+   margin: 0;
+}
+
 body > header {
    margin-bottom: 0.5em;
 }
@@ -86,7 +90,35 @@ body > header {
 
 #content {
    margin: 0;
+}
+
+.contentList {
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+   font-family: sans-serif;
+}
+
+.contentList li {
+   margin: 0 0 0.5em 0;
    padding: 0.5em;
+   color: white;
+   background-color: cornflowerblue;
+   cursor: pointer;
+}
+
+.contentList li:hover {
+   color: white;
+   background-color: darkblue;
+}
+
+.contentList li span {
+   display: block;
+}
+
+.contentList .detail {
+   font-size: 75%;
+   overflow: hidden;
 }
 
 .clearShoppingList {
@@ -120,7 +152,7 @@ body > header {
 
 .recipe > header, .plan > header {
    position: relative;
-   left: -1em;
+   left: -0.5em;
 }
 
 .recipe {
@@ -177,6 +209,12 @@ body > header {
    body {
       padding: 1em;
    }
+
+   #content {
+      width: auto;
+      overflow: hidden;
+      padding: 0.5em 0 0 0.5em;
+   }
    
    #menuIcon {
       display: none;
@@ -185,6 +223,7 @@ body > header {
    #mainNavigation {
       display: block;
       border-bottom: solid thin black;
+      clear: left;
    }
 
    #mainNavigation li {
@@ -192,19 +231,12 @@ body > header {
    }
 
    #listing {
-      display: inline-block;
-      vertical-align: top;
       width: 10%;
+      float: left;
    }
    
    .ingredients input.description {
       width: 40em;
-   }
-
-   #content {
-      display: inline-block;
-      vertical-align: top;
-      max-width: 80%;
    }
    
    .clearShoppingList {

@@ -7,6 +7,7 @@ import Listings from './ui/listings.js';
 import ShoppingListView from './ui/shopping-list-view.js';
 import RecipeView from './ui/recipe-view.js';
 import PlanView from './ui/plan-view.js';
+import ContentList from './ui/content-list.js';
 
 mealPlanApi.initializeFetch(fetch);
 
@@ -22,9 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
    const setContent = content => {
       const contentNode = document.getElementById('content');
       contentNode.textContent = '';
-
-      menuToggle.hide();
-
       contentNode.appendChild(content);
    };
 
@@ -82,6 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
          editMode,
          recipeUpdatedCallback);
 
+      menuToggle.hide();
+
       setContent(recipeView.view);
    };
 
@@ -93,6 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
          editMode,
          planUpdatedCallback);
 
+      menuToggle.hide();
+
       setContent(planView.view);
    };
 
@@ -100,6 +102,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const shoppingListView = new ShoppingListView(
          templateEngine,
          shoppingList);
+
+      menuToggle.hide();
+
       setContent(shoppingListView.view);
    };
 
@@ -122,39 +127,57 @@ document.addEventListener('DOMContentLoaded', () => {
       return result;
    };
 
-   const setPlanListings = plans => {
-      const planListings = plans.map(plan => {
-         return {
-            title: plan.title,
-            data: plan,
-            handler: displayPlan
-         };
-      }).sort(sortByTitle);
-
-      listings.updateListings(planListings);
+   const displayContentList = (items, mapFn) => {
+      const contentList = new ContentList(templateEngine, items.map(mapFn));
+      
+      setContent(contentList.element());
    };
 
-   const showPlanListings = options =>
-      mealPlanApi.Plan.getMany(options).then(setPlanListings);
+   const planDetail = plan => '';
 
-   const setRecipeListings = recipes => {
-      const recipeListings = recipes.map(recipe => {
-         return {
-            title: recipe.title,
-            data: recipe,
-            handler: displayRecipe
-         };
-      }).sort(sortByTitle);
-
-      listings.updateListings(recipeListings);
+   const planItemDataMap = plan => {
+      return {
+         mainLine: plan.title,
+         detail: planDetail(plan),
+         data: plan,
+         handler: displayPlan
+      };
    };
 
-   const showRecipeListings = options =>
-      mealPlanApi.Recipe.getMany(options).then(setRecipeListings);
+   const recipeDetail = recipe => {
+      if (recipe.tags) {
+         return recipe.tags.join(' ');
+      }
 
-   const handlePlanTagSelected = tag => showPlanListings({tag});
+      return '';
+   };
 
-   const handleRecipeTagSelected = tag => showRecipeListings({tag});
+   const recipeItemDataMap = recipe => {
+      return {
+         mainLine: recipe.title,
+         detail: recipeDetail(recipe),
+         data: recipe,
+         handler: displayRecipe
+      };
+   };
+
+   const displayPlanContentList = plans =>
+      displayContentList(plans, planItemDataMap);
+
+   const showPlanContentList = options =>
+      mealPlanApi.Plan.getMany(options)
+         .then(displayPlanContentList);
+
+   const displayRecipeContentList = recipes =>
+      displayContentList(recipes, recipeItemDataMap);
+
+   const showRecipeContentList = options =>
+      mealPlanApi.Recipe.getMany(options)
+         .then(displayRecipeContentList);
+
+   const handlePlanTagSelected = tag => showPlanContentList({tag});
+
+   const handleRecipeTagSelected = tag => showRecipeContentList({tag});
 
    const showPlanTags = () => {
       search.clear();
@@ -181,13 +204,13 @@ document.addEventListener('DOMContentLoaded', () => {
    const handlePlansTab = () => {
       showPlanTags();
       search.dataSource = mealPlanApi.Plan.getMany;
-      search.resultsHandler = setPlanListings;
+      search.resultsHandler = displayPlanContentList;
    };
 
    const handleRecipesTab = () => {
       showRecipeTags();
       search.dataSource = mealPlanApi.Recipe.getMany;
-      search.resultsHandler = setRecipeListings;
+      search.resultsHandler = displayRecipeContentList;
    };
 
    const handleShoppingListTab = () => showShoppingList();

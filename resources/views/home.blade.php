@@ -51,6 +51,12 @@
       </ul>
    </nav>
    <section id="content"></section>
+   <ol class="contentList" data-template-name="contentList">
+      <li data-template-name="contentListItem">
+         <span class="mainLine"></span>
+         <span class="detail"></span>
+      </li>
+   </ol>
    <section data-template-name="ingredientsView">
       <ul class="ingredients">
          <li data-template-name="ingredientItem">
