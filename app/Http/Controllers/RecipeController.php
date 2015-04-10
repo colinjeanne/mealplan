@@ -121,6 +121,8 @@ class RecipeController extends Controller {
                   $input->get('instructions'),
                   ENT_QUOTES | ENT_HTML5));
          $recipe->ingredients = json_encode($input->get('ingredients'));
+
+         $recipe->save();
          
          $recipeJson = [];
          $recipeJson['id'] = route('recipes.get', ['recipe' => $recipe]);
