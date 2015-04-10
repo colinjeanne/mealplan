@@ -176,7 +176,7 @@
             of the meat
          </dd>
          <dt>Beef</dt>
-         <dd>90 minutes at 40&deg;C for medium rare</dd>
+         <dd>90 minutes at 59&deg;C for medium rare</dd>
          <dt>Eggs</dt>
          <dd>1 hour at 63&deg;C for semi-solid center</dd>
          <dt>Fish</dt>
