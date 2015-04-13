@@ -35,7 +35,7 @@ body > header {
 }
 
 #mainNavigation li {
-   margin: 0.5em 0;
+   margin: 0.5em 0.25em 0.5em 0;
 }
 
 #mainNavigation label {
@@ -123,6 +123,68 @@ body > header {
 
 .clearShoppingList {
    display: block;
+}
+
+.ideas {
+   padding-left: 1em;
+}
+
+.ideas header {
+   margin-bottom: 0.5em;
+   position: relative;
+   left: -0.5em;
+}
+
+.ideas ul {
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+}
+
+.ideas li {
+   margin: 0.5em 0;
+   padding: 0.5em 0.5em;
+   color: white;
+   background-color: cornflowerblue;
+   overflow: hidden;
+}
+
+.ideas button {
+   float: right;
+}
+
+.idea {
+   margin: 0;
+   padding: 0;
+}
+
+.ideaSource {
+   margin: 0.5em 0 0 0;
+   padding: 0;
+}
+
+.ideaSource:not(:empty)::before {
+   content: 'Source: ';
+}
+
+.addIdea {
+   padding-left: 1em;
+}
+
+.addIdea header {
+   margin-bottom: 0.5em;
+   position: relative;
+   left: -0.5em;
+}
+
+.addIdea textarea {
+   display: block;
+   margin-bottom: 0.5em;
+}
+
+.addIdea button {
+   display: block;
+   margin-top: 0.5em;
 }
 
 .ingredients {

@@ -150,6 +150,52 @@ class ShoppingList {
 }
 
 /**
+ * @classdesc A single idea
+ */
+export class Idea {
+   /**
+    * Constructs the idea given a description and an optional source
+    * 
+    * @param  {string}  description The description of the idea
+    * @param  {string=} source      The source or inspiration of the idea
+    * @return {Idea}
+    */
+   constructor(description, source) {
+      this.description = description;
+      this.source = source;
+   }
+}
+
+/**
+ * @classdesc The current user's ideas
+ */
+class Ideas {
+   /**
+    * Constructs the Ideas given an array of ideas
+    *
+    * @param {Idea[]} ideas An array of Idea items
+    *
+    * @return {Ideas}
+    */
+   constructor(ideas = []) {
+      this.items = ideas;
+   }
+
+   /**
+    * Saves the ideas
+    * 
+    * @return {Promise} A promise that resolves once the save has completed
+    */
+   save() {
+      return authorizedFetch('/me/ideas', {
+         method: 'put',
+         body: JSON.stringify(this.items)
+      })
+      .then(response => response.json());
+   }
+}
+
+/**
  * @classdesc A user
  */
 class User {
@@ -211,6 +257,17 @@ class Session {
       return authorizedFetch('/me/shoppingList')
       .then(response => response.json())
       .then(shoppingList => new ShoppingList(shoppingList));
+   }
+
+   /**
+    * The current user's ideas
+    * 
+    * @return {Promise} A promise which resolves to the current user's {Ideas}
+    */
+   ideas() {
+      return authorizedFetch('/me/ideas')
+      .then(response => response.json())
+      .then(ideas => new Ideas(ideas));
    }
 }
 

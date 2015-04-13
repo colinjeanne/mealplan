@@ -34,20 +34,16 @@
          <li>
             <input type="radio" name="tab" id="plans" checked>
             <label for="plans">Meal Plans</label>
-         </li>
-         <li>
+         </li><li>
             <input type="radio" name="tab" id="recipes">
             <label for="recipes">Recipes</label>
-         </li>
-         <li>
+         </li><li>
             <input type="radio" name="tab" id="sousVide">
             <label for="sousVide">Sous Vide</label>
-         </li>
-         <li data-template-name="mainNavigationTab">
+         </li><li data-template-name="mainNavigationTab">
             <input type="radio" name="tab">
             <label></label>
-         </li>
-      </ul>
+         </li></ul>
    </nav>
    <nav id="listing">
       <input type="search" id="search" placeholder="Search">
@@ -80,7 +76,7 @@
                   name="includeInShoppingList"
                   class="shoppable">
             </label>
-            <input class="description">
+            <input spellcheck class="description">
             <button type="button">X</button>
          </li>
       </ul>
@@ -121,12 +117,12 @@
          <header>
             <label>
                Title
-               <input required placeholder="Title">
+               <input required spellcheck placeholder="Title">
             </label>
          </header>
          <label>
             Instructions
-            <textarea required placeholder="Instructions"></textarea>
+            <textarea required spellcheck placeholder="Instructions"></textarea>
          </label>
          <button type="submit"></button>
       </form>
@@ -145,7 +141,7 @@
          <header>
             <label>
                Title
-               <input required placeholder="Title">
+               <input required spellcheck placeholder="Title">
             </label>
          </header>
          <button type="submit"></button>
@@ -159,9 +155,35 @@
             <button type="button">X</button>
          </li>
       </ul>
-      <input>
+      <input spellcheck>
       <button type="button" class="addToShoppingList">Add Item</button>
       <button type="button" class="clearShoppingList">Remove all</button>
+   </section>
+   <section data-template-name="displayIdeas" class="ideas">
+      <header></header>
+      <ul>
+         <li data-template-name="ideaListItem">
+            <button type="button">X</button>
+            <p class="idea"></p>
+            <p class="ideaSource"></p>
+         </li>
+      </ul>
+   </section>
+   <section data-template-name="addIdea" class="addIdea">
+      <header>Add an Idea</header>
+      <label>
+         The Idea
+         <textarea
+            required
+            spellcheck
+            placeholder="What's your idea?"></textarea>
+      </label>
+      <label>
+         Source
+         <input list="ideaDummy" spellcheck placeholder="What inspired you?">
+         <datalist id="ideaDummy">
+      </label>
+      <button type="submit">Add Idea</button>
    </section>
    <section data-template-name="displaySousVide" class="sousVide">
       <header>Temperatures</header>

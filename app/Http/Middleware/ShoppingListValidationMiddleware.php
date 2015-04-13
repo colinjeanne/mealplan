@@ -4,8 +4,8 @@ use Closure;
 use Log;
 
 class ShoppingListValidationMiddleware {
-	public function handle($request, Closure $next)
-	{
+   public function handle($request, Closure $next)
+   {
       if (!$request->isJson()) {
          abort(415);
       }
@@ -36,6 +36,6 @@ class ShoppingListValidationMiddleware {
          }
       }
       
-		return $next($request);
-	}
+      return $next($request);
+   }
 }

@@ -47,3 +47,5 @@ Route::get('user/{user}', [
 Route::get('me', 'UserController@getMe');
 Route::get('me/shoppingList', 'UserController@getMyShoppingList');
 Route::put('me/shoppingList', 'UserController@updateMyShoppingList');
+Route::get('me/ideas', 'UserController@getMyIdeas');
+Route::put('me/ideas', 'UserController@updateMyIdeas');

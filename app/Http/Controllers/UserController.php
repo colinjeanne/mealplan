@@ -1,6 +1,7 @@
 <?php namespace MealPlan\Http\Controllers;
 
 use Illuminate\Http\Request;
+use MealPlan\Ideas;
 use MealPlan\ShoppingList;
 use MealPlan\User;
 
@@ -11,13 +12,21 @@ class UserController extends Controller {
          ['only' => [
             'getMe',
             'getMyShoppingList',
-            'updateMyShoppingList'
+            'updateMyShoppingList',
+            'getMyIdeas',
+            'updateMyIdeas'
          ]]);
       
       $this->middleware(
          'shoppingList',
          ['only' => [
             'updateMyShoppingList'
+         ]]);
+
+      $this->middleware(
+         'ideas',
+         ['only' => [
+            'updateMyIdeas'
          ]]);
 	}
    
@@ -54,6 +63,28 @@ class UserController extends Controller {
       
       return response()->json($items);
    }
+
+   public function getMyIdeas(Request $request) {
+      $ideas = $request->user()->ideas;
+      if (!$ideas) {
+         $ideasJson = [];
+      } else {
+         $ideasJson = self::ideasToJson($ideas);
+      }
+
+      return response()->json($ideasJson);
+   }
+   
+   public function updateMyIdeas(Request $request) {
+      $items = $request->all();
+      
+      $ideas = Ideas::firstOrNew(['user_id' => $request->user()->id]);
+      $ideas->items = json_encode($items);
+      $ideas->user()->associate($request->user());
+      $ideas->save();
+      
+      return response()->json($items);
+   }
    
    private static function userToJson(User $user) {
       $userJson = [];
@@ -64,5 +95,9 @@ class UserController extends Controller {
    
    private static function shoppingListToJson(ShoppingList $shoppingList) {
       return json_decode($shoppingList->items, true);
+   }
+
+   private static function ideasToJson(Ideas $ideas) {
+      return json_decode($ideas->items, true);
    }
 }

@@ -8,6 +8,7 @@ import ShoppingListView from './ui/shopping-list-view.js';
 import RecipeView from './ui/recipe-view.js';
 import PlanView from './ui/plan-view.js';
 import ContentList from './ui/content-list.js';
+import IdeasView from './ui/ideas-view.js';
 
 mealPlanApi.initializeFetch(fetch);
 
@@ -215,6 +216,53 @@ document.addEventListener('DOMContentLoaded', () => {
       search.resultsHandler = displayRecipeContentList;
    };
 
+   const addIdea = () =>
+      mealPlanApi.currentSession.ideas()
+         .then(ideas => {
+            const ideasView = new IdeasView(
+               templateEngine,
+               mealPlanApi,
+               ideas,
+               'addIdea');
+
+            setContent(ideasView.view)
+         });
+
+   const handleIdeasTab = () => {
+      search.clear();
+
+      const ideaListingItems = [
+         {
+            title: 'Random 5',
+            data: null,
+            handler: () => displayIdeas('random')
+         },
+         {
+            title: 'All',
+            data: null,
+            handler: () => displayIdeas('all')
+         }
+      ];
+      
+      listings.updateListings(
+         addNewItemListing(
+            ideaListingItems,
+            addIdea));
+      displayIdeas('random');
+   };
+
+   const displayIdeas = viewType =>
+      mealPlanApi.currentSession.ideas()
+         .then(ideas => {
+            const ideasView = new IdeasView(
+               templateEngine,
+               mealPlanApi,
+               ideas,
+               viewType);
+
+            setContent(ideasView.view);
+         });
+
    const displaySousVide = () =>
       setContent(templateEngine.create('displaySousVide'));
 
@@ -244,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
       existingTabs
    );
 
-   const userSignedIn = () =>
+   const userSignedIn = () => {
       tabs.add(
          templateEngine,
          {
@@ -252,6 +300,15 @@ document.addEventListener('DOMContentLoaded', () => {
             title: 'My Shopping List',
             handler: handleShoppingListTab
          });
+
+      tabs.add(
+         templateEngine,
+         {
+            id: 'ideas',
+            title: 'My Ideas',
+            handler: handleIdeasTab
+         });
+   };
 
    menuToggle.register(tabs.container);
    menuToggle.register(document.getElementById('listing'));
