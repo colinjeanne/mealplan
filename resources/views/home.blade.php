@@ -7,8 +7,9 @@
    <script src="es6-symbol.js"></script>
    <script src="fetch.js"></script>
    <script src="main.js"></script>
-   <script src="https://apis.google.com/js/client:platform.js" async defer></script>
+   <script src="https://apis.google.com/js/platform.js" async defer></script>
    <meta charset="utf-8">
+   <meta name="google-signin-client_id" content="{!! $clientId !!}">
    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -18,14 +19,10 @@
       <span id="userContainer">
          <span id="currentUser"></span>
          <span id="signInButton">
-            <span
-               class="g-signin"
-               data-callback="signinCallback"
-               data-clientid="{!! $clientId !!}"
-               data-cookiepolicy="single_host_origin"
-               data-scope="profile openid"
-               data-width="iconOnly">
-            </span>
+            <div
+               class="g-signin2"
+               data-onsuccess="signinSucceeded"
+               data-onfailure="singinFailed"></div>
          </span>
       </span>
    </header>

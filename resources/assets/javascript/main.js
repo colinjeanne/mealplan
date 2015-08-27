@@ -313,33 +313,26 @@ document.addEventListener('DOMContentLoaded', () => {
    menuToggle.register(tabs.container);
    menuToggle.register(document.getElementById('listing'));
 
-   const signinCallback = authResult => {
-      if (authResult.status.signed_in) {
-         console.log('Setting Id token');
-         const idToken = authResult.id_token;
-         mealPlanApi.startSession(() => idToken);
+   const signinSucceeded = googleUser => {
+      console.log('Setting Id token');
+      const idToken = googleUser.getAuthResponse().id_token;
+      mealPlanApi.startSession(() => idToken);
 
-         console.log('Getting me');
-         mealPlanApi.currentSession.me()
-            .then(me => console.log('Got me: ' + me.id))
-            .then(userSignedIn)
-            .catch(err => console.log('Got error: ' + err.message));
+      console.log('Getting me');
+      mealPlanApi.currentSession.me()
+      .then(me => console.log('Got me: ' + me.id))
+      .then(userSignedIn)
+      .catch(err => console.log('Got error: ' + err.message));
 
-         window.gapi.client.load('oauth2', 'v2')
-            .then(() =>
-               window.gapi.client.oauth2.userinfo.get({'fields': 'name'})
-               .then(response => {
-                  document.getElementById('signInButton').setAttribute('style', 'display: none');
-                  document.getElementById('currentUser').innerHTML = 'Welcome ' + response.result.name;
-               },
-               reason =>
-                  console.log('Error: ' + reason.result.error.message)
-               )
-            );
-      } else {
-         console.log('Sign-in state: ' + authResult.error);
-      }
+      const profile = googleUser.getBasicProfile();
+      document.getElementById('signInButton').setAttribute('style', 'display: none');
+      document.getElementById('currentUser').textContent =
+            'Welcome ' + profile.getName();
    };
+   
+   const signinFailed = error =>
+      console.log('Sign-in failed: ' + error);
 
-   window.signinCallback = signinCallback;
+   window.signinSucceeded = signinSucceeded;
+   window.signinFailed = signinFailed;
 });
