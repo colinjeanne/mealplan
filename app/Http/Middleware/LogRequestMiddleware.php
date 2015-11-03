@@ -4,7 +4,8 @@ use Closure;
 use Illuminate\Contracts\Routing\TerminableMiddleware;
 use Log;
 
-class LogRequestMiddleware implements TerminableMiddleware {
+class LogRequestMiddleware implements TerminableMiddleware
+{
    /**
     * Handle an incoming request.
     *
@@ -12,25 +13,28 @@ class LogRequestMiddleware implements TerminableMiddleware {
     * @param  \Closure  $next
     * @return mixed
     */
-   public function handle($request, Closure $next)
-   {
-      Log::info(
-         'Beginning request',
-         [
-            'time' => microtime(true),
-            'method' => $request->method(),
-            'uri' => $request->url()
-         ]);
+    public function handle($request, Closure $next)
+    {
+        Log::info(
+            'Beginning request',
+            [
+                'time' => microtime(true),
+                'method' => $request->method(),
+                'uri' => $request->url()
+            ]
+        );
 
-      return $next($request);
-   }
+        return $next($request);
+    }
 
-   public function terminate($request, $response) {
-      Log::info(
-         'Ending request',
-         [
-            'time' => microtime(true),
-            'status' => $response->getStatusCode()
-         ]);
-   }
+    public function terminate($request, $response)
+    {
+        Log::info(
+            'Ending request',
+            [
+                'time' => microtime(true),
+                'status' => $response->getStatusCode()
+            ]
+        );
+    }
 }

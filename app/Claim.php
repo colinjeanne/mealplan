@@ -2,10 +2,12 @@
 
 use Eloquent;
 
-class Claim extends Eloquent {
-   protected $fillable = ['id'];
+class Claim extends Eloquent
+{
+    protected $fillable = ['id'];
    
-   public function user() {
-      return $this->belongsTo('MealPlan\User');
-   }
+    public function user()
+    {
+        return $this->belongsTo('MealPlan\User');
+    }
 }

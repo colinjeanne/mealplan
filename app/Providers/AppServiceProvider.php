@@ -2,47 +2,48 @@
 
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider {
+class AppServiceProvider extends ServiceProvider
+{
 
-	/**
-	 * Bootstrap any application services.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-		\Auth::extend('googleidtoken', function($app) {
-         return new \MealPlan\GoogleIdTokenUserProvider();
-      });
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        \Auth::extend('googleidtoken', function ($app) {
+            return new \MealPlan\GoogleIdTokenUserProvider();
+        });
       
-      if (config('app.debug')) {
-         \DB::listen(function($sql, $bindings, $time) {
-            \Log::info(
-               'Database query',
-               [
-                  'sql' => $sql,
-                  'bindings' => $bindings,
-                  'time' => $time
-               ]);
-         });
-      }
-	}
+        if (config('app.debug')) {
+            \DB::listen(function ($sql, $bindings, $time) {
+                \Log::info(
+                    'Database query',
+                    [
+                        'sql' => $sql,
+                        'bindings' => $bindings,
+                        'time' => $time
+                    ]
+                );
+            });
+        }
+    }
 
-	/**
-	 * Register any application services.
-	 *
-	 * This service provider is a great spot to register your various container
-	 * bindings with the application. As you can see, we are registering our
-	 * "Registrar" implementation here. You can add your own bindings too!
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		$this->app->bind(
-			'Illuminate\Contracts\Auth\Registrar',
-			'MealPlan\Services\Registrar'
-		);
-	}
-
+    /**
+     * Register any application services.
+     *
+     * This service provider is a great spot to register your various container
+     * bindings with the application. As you can see, we are registering our
+     * "Registrar" implementation here. You can add your own bindings too!
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->bind(
+            'Illuminate\Contracts\Auth\Registrar',
+            'MealPlan\Services\Registrar'
+        );
+    }
 }
