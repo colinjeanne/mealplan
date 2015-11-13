@@ -13,6 +13,10 @@
 
 Route::get('/', 'HomeController@getIndex');
 
+Route::get('/oauth', [
+    'as' => 'oauth',
+    'uses' => 'HomeController@oauth']);
+
 Route::get('plan', 'PlanController@getPlans');
 Route::post('plan', 'PlanController@createPlan');
 

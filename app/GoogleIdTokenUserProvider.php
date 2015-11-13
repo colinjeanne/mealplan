@@ -11,19 +11,19 @@ use Validator;
 
 class GoogleIdTokenUserProvider implements UserProvider
 {
-   /**
-    * Separates the claim issuer from the user Id relative to the issuer. The
-    * issuer member of an Id token is a URL which does not contain either a
-    * query string or a fragment identifier. This separator, therefore, cannot
-    * occur within the issuer URL.
-    */
+    /**
+     * Separates the claim issuer from the user Id relative to the issuer. The
+     * issuer member of an Id token is a URL which does not contain either a
+     * query string or a fragment identifier. This separator, therefore, cannot
+     * occur within the issuer URL.
+     */
     const CLAIM_SEPARATOR = '#';
    
-   /**
-    * The client used to talk to the Google API
-    *
-    * @var Google_Client
-    */
+    /**
+     * The client used to talk to the Google API
+     *
+     * @var Google_Client
+     */
     private $googleClient;
    
     public function __construct()
@@ -122,31 +122,39 @@ class GoogleIdTokenUserProvider implements UserProvider
         return $user->getAuthIdentifier() === $userId;
     }
    
-   /**
-    * Retrieves the Google Id token from the credentials
-    *
-    * @param  array  $credentials
-    * @return string|null
-    */
+    /**
+     * Retrieves the Google Id token from the credentials
+     *
+     * @param  array  $credentials
+     * @return string|null
+     */
     private function getIdTokenFromCredentials(array $credentials)
     {
         Log::info('Getting Id token from credentials');
-      
+        
+        if (array_key_exists('accessToken', $credentials)) {
+            $this->googleClient->setAccessToken($credentials['accessToken']);
+            $decoded = json_decode($this->googleClient->getAccessToken(), true);
+            if (array_key_exists('id_token', $decoded)) {
+                $credentials['idToken'] = $decoded['id_token'];
+            }
+        }
+        
         $validator = Validator::make($credentials, ['idToken' => 'required']);
         if ($validator->fails()) {
             Log::info('Credentials are missing idToken');
             return null;
         }
-      
+        
         return $credentials['idToken'];
     }
    
-   /**
-    * Retrieves a user Id from the given credentials.
-    *
-    * @param  array  $credentials
-    * @return string|null
-    */
+    /**
+     * Retrieves a user Id from the given credentials.
+     *
+     * @param  array  $credentials
+     * @return string|null
+     */
     private function getUserIdFromCredentials(array $credentials)
     {
         Log::info('Getting user Id from credentials');
@@ -194,12 +202,12 @@ class GoogleIdTokenUserProvider implements UserProvider
         return $userId;
     }
    
-   /**
-    * Converts an Id token to a claim
-    *
-    * @param  array  $idToken
-    * @return string
-    */
+    /**
+     * Converts an Id token to a claim
+     *
+     * @param  array  $idToken
+     * @return string
+     */
     private function convertIdTokenToClaim(array $idToken)
     {
         return $idToken['iss'] .

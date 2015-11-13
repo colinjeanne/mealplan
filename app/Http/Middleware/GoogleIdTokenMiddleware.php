@@ -3,6 +3,7 @@
 use Auth;
 use Closure;
 use Log;
+use Session;
 
 class GoogleIdTokenMiddleware
 {
@@ -19,7 +20,7 @@ class GoogleIdTokenMiddleware
         Log::info('Attempting Id token authorization');
       
         $authorization = $request->header('Authorization');
-        if ($authorization !== null) {
+        if ($authorization) {
             Log::info(
                 'Authorization header is present',
                 ['header' => $authorization]
@@ -30,9 +31,15 @@ class GoogleIdTokenMiddleware
                 $idToken = $authInfo[1];
             
                 if (Auth::once(['idToken' => $idToken])) {
-                    Log::info('Successfully authenticated');
+                    Log::info('Successfully authenticated with ID token');
                     return $next($request);
                 }
+            }
+        } elseif (Session::has('accessToken')) {
+            Log::info('Attempting authorization with access token');
+            if (Auth::once(['accessToken' => Session::get('accessToken')])) {
+                Log::info('Successfully authenticated with access token');
+                return $next($request);
             }
         }
       

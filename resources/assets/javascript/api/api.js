@@ -62,7 +62,11 @@ const getContentTypeHeaders = () => {
  * key-value pair
  */
 const getAuthorizationHeaders = currentIdToken => {
-   return { Authorization: 'google-id-token ' + currentIdToken };
+   const headers = currentIdToken ?
+      { Authorization: 'google-id-token ' + currentIdToken } :
+      {};
+   
+   return headers;
 };
 
 /**
@@ -109,7 +113,7 @@ const checkAuthorizationFailed = response => {
  * @param  {Object=} options Options to forward to fetch
  * @return {Promise}         A fetch promise
  */
-let authorizedFetch = (uri, options = {method: 'get', headers: {}}) => {
+let authorizedFetch = (uri, options = {method: 'get', headers: {}, credentials: 'include'}) => {
    options.headers = Object.assign(options.headers || {},
       getStandardHeaders(),
       getAuthorizationHeaders(currentIdToken),

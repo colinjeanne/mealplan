@@ -74,17 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
    const handleShoppingListTab = () => showShoppingList();
 
-   const sortByTitle = (a, b) => {
-      let result = 0;
-      if (a.title < b.title) {
-         result = -1;
-      } else if (a.title > b.title) {
-         result = 1;
-      }
-
-      return result;
-   };
-
    const displayContentList = (items, mapFn) => {
       const contentList = new ContentList(templateEngine, items.map(mapFn));
       
@@ -312,6 +301,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
    menuToggle.register(tabs.container);
    menuToggle.register(document.getElementById('listing'));
+   
+   const authenticatedMeta = document.querySelector('meta[name="authenticated"]');
+   const isAuthenticated = authenticatedMeta.content === 'true';
+   if (isAuthenticated) {
+      console.log('Getting me (session based)');
+      mealPlanApi.currentSession.me()
+      .then(me => console.log('Got me: ' + me.id))
+      .then(userSignedIn)
+      .catch(err => console.log('Got error: ' + err.message));
+
+      document.getElementById('signInButton').setAttribute('style', 'display: none');
+      document.getElementById('mobileLogin').setAttribute('style', 'display: none');
+   }
 
    const signinSucceeded = googleUser => {
       console.log('Setting Id token');

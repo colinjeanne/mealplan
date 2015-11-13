@@ -10,6 +10,7 @@
    <script src="https://apis.google.com/js/platform.js" async defer></script>
    <meta charset="utf-8">
    <meta name="google-signin-client_id" content="{!! $clientId !!}">
+   <meta name="authenticated" content="{!! $authenticated !!}">
    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -17,7 +18,8 @@
       <button type="button" id="menuIcon"><img src="menu.svg"></button>
       Kathy's Meal Plan Site
       <span id="userContainer">
-         <span id="currentUser"></span>
+         <span id="currentUser">{!! $givenName !!}</span>
+         <a href="/oauth" id="mobileLogin">Login with Google</a>
          <span id="signInButton">
             <div
                class="g-signin2"
