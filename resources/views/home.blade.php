@@ -173,6 +173,8 @@
       <label>
          The Idea
          <textarea
+            cols="40"
+            rows="5"
             required
             spellcheck
             placeholder="What's your idea?"></textarea>
