@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
    const displayContentList = (items, mapFn) => {
       const contentList = new ContentList(templateEngine, items.map(mapFn));
-      
+
       setContent(contentList.element());
    };
 
@@ -88,14 +88,15 @@ document.addEventListener('DOMContentLoaded', () => {
          .catch(err => alert(err))
          .then(() => updatedPlan);
    };
-   
+
    const displayPlan = (plan, editMode = false) => {
       const planView = new PlanView(
          templateEngine,
          mealPlanApi,
          plan,
          editMode,
-         planUpdatedCallback);
+         planUpdatedCallback,
+         () => menuToggle.toggle());
 
       menuToggle.hide();
 
@@ -155,7 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
          recipe,
          false,
          editMode,
-         recipeUpdatedCallback);
+         recipeUpdatedCallback,
+         () => menuToggle.toggle());
 
       menuToggle.hide();
 
@@ -232,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
             handler: () => displayIdeas('all')
          }
       ];
-      
+
       listings.updateListings(
          addNewItemListing(
             ideaListingItems,
@@ -282,6 +284,8 @@ document.addEventListener('DOMContentLoaded', () => {
    );
 
    const userSignedIn = () => {
+      document.getElementById('mobileLogin').setAttribute('style', 'display: none');
+
       tabs.add(
          templateEngine,
          {
@@ -301,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
    menuToggle.register(tabs.container);
    menuToggle.register(document.getElementById('listing'));
-   
+
    const authenticatedMeta = document.querySelector('meta[name="authenticated"]');
    const isAuthenticated = authenticatedMeta.content === 'true';
    if (isAuthenticated) {
@@ -331,7 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('currentUser').textContent =
             'Welcome ' + profile.getName();
    };
-   
+
    const signinFailed = error =>
       console.log('Sign-in failed: ' + error);
 

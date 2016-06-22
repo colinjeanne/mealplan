@@ -11,12 +11,13 @@ const getAllRecipesInPlan = (mealPlanApi, plan) => {
 };
 
 const makeDisplayView =
-   (templateEngine, mealPlanApi, plan, editPlanCallback) => {
+   (templateEngine, mealPlanApi, plan, editPlanCallback, onBackCallback) => {
       const view = templateEngine.create('displayPlan');
 
       const recipeTitles = view.getElementsByClassName('recipeTitles')[0];
       const tags = view.getElementsByClassName('tags')[0];
-      const editButton = view.getElementsByTagName('button')[0];
+      const backButton = view.getElementsByTagName('button')[0];
+      const editButton = view.getElementsByTagName('button')[1];
       const ingredientsView = new IngredientsView(
             templateEngine,
             mealPlanApi,
@@ -24,6 +25,8 @@ const makeDisplayView =
 
       view.getElementsByTagName('header')[0].textContent = plan.title;
       view.insertBefore(ingredientsView.element(), tags);
+
+      backButton.addEventListener('click', onBackCallback);
 
       getAllRecipesInPlan(mealPlanApi, plan)
          .then(recipes => {
@@ -67,11 +70,12 @@ const makeDisplayView =
    };
 
 const makeEditView =
-   (templateEngine, mealPlanApi, plan, planEditedCallback) => {
+   (templateEngine, mealPlanApi, plan, planEditedCallback, onBackCallback) => {
       const view = templateEngine.create('editPlan');
 
       const titleInput = view.getElementsByTagName('input')[0];
-      const submitButton = view.getElementsByTagName('button')[0];
+      const backButton = view.getElementsByTagName('button')[0];
+      const submitButton = view.getElementsByTagName('button')[1];
       const form = submitButton.form;
       const recipeAggregator = new RecipeAggregator(
             templateEngine,
@@ -83,6 +87,8 @@ const makeEditView =
 
          return new mealPlanApi.Plan(title, recipeUris);
       };
+
+      backButton.addEventListener('click', onBackCallback);
 
       form.insertBefore(recipeAggregator.element(), submitButton);
       if (plan) {
@@ -122,7 +128,8 @@ export default class {
       mealPlanApi,
       plan,
       editMode = false,
-      updatePlanCallback) {
+      updatePlanCallback,
+      onBackCallback) {
       const replaceView = view => {
          if (this.view && this.view.parentNode) {
             const parentNode = this.view.parentNode;
@@ -142,7 +149,8 @@ export default class {
                templateEngine,
                mealPlanApi,
                planToDisplay,
-               editPlan));
+               editPlan,
+               onBackCallback));
       };
 
       editPlan = planToEdit => {
@@ -153,8 +161,8 @@ export default class {
                planToEdit,
                updatedPlan =>
                   updatePlanCallback(updatedPlan)
-                  .then(displayPlan)
-               ));
+                  .then(displayPlan),
+               onBackCallback));
       };
 
       if (editMode) {

@@ -2,16 +2,18 @@ import IngredientsView from './ingredients-view.js';
 import IngredientsEditor from './ingredients-editor.js';
 import TagsEditor from './tags-editor.js';
 
-const makeDisplayView = 
+const makeDisplayView =
    (templateEngine,
       mealPlanApi,
       recipe,
       isPartOfPlan = false,
-      editRecipeCallback) => {
+      editRecipeCallback,
+      onBackCallback) => {
       const view = templateEngine.create('displayRecipe');
 
       const instructions = view.getElementsByTagName('p')[0];
-      const editButton = view.getElementsByTagName('button')[0];
+      const backButton = view.getElementsByTagName('button')[0];
+      const editButton = view.getElementsByTagName('button')[1];
       const ingredientsView = new IngredientsView(
          templateEngine,
          mealPlanApi,
@@ -36,7 +38,9 @@ const makeDisplayView =
 
       if (isPartOfPlan) {
          view.removeChild(editButton);
+         view.removeChild(backButton);
       } else {
+         backButton.addEventListener('click', onBackCallback);
          mealPlanApi.currentSession.me()
             .then(
                me => {
@@ -56,12 +60,17 @@ const makeDisplayView =
    };
 
 const makeEditView =
-   (templateEngine, mealPlanApi, recipe, recipeEditedCallback) => {
+   (templateEngine,
+      mealPlanApi,
+      recipe,
+      recipeEditedCallback,
+      onBackCallback) => {
       const view = templateEngine.create('editRecipe');
 
       const titleInput = view.getElementsByTagName('input')[0];
       const instructions = view.getElementsByTagName('textarea')[0];
-      const submitButton = view.getElementsByTagName('button')[0];
+      const backButton = view.getElementsByTagName('button')[0];
+      const submitButton = view.getElementsByTagName('button')[1];
       const form = submitButton.form;
       const ingredientsEditor = new IngredientsEditor(templateEngine);
       const tagsEditor = new TagsEditor(templateEngine);
@@ -78,6 +87,8 @@ const makeEditView =
                tags
             );
          };
+
+      backButton.addEventListener('click', onBackCallback);
 
       form.insertBefore(ingredientsEditor.element(), instructions.parentNode);
       form.insertBefore(tagsEditor.element(), submitButton);
@@ -124,7 +135,8 @@ export default class {
       recipe,
       isPartOfPlan = false,
       editMode = false,
-      updateRecipeCallback) {
+      updateRecipeCallback,
+      onBackCallback) {
       const replaceView = view => {
          if (this.view && this.view.parentNode) {
             const parentNode = this.view.parentNode;
@@ -145,7 +157,8 @@ export default class {
                mealPlanApi,
                recipeToDisplay,
                isPartOfPlan,
-               editRecipe));
+               editRecipe,
+               onBackCallback));
       };
 
       editRecipe = recipeToEdit => {
@@ -156,8 +169,8 @@ export default class {
                recipeToEdit,
                updatedRecipe =>
                   updateRecipeCallback(updatedRecipe)
-                  .then(displayRecipe)
-               ));
+                  .then(displayRecipe),
+               onBackCallback));
       }
 
       if (editMode) {

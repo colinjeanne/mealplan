@@ -106,12 +106,14 @@
       <button type="button" class="addButton">Add Recipe</button>
    </section>
    <section data-template-name="displayRecipe" class="recipe">
+      <button type="button">Back</button>
       <header></header>
       <p></p>
       <ul class="tags"></ul>
       <button type="button">Edit</button>
    </section>
    <section data-template-name="editRecipe" class="recipe">
+      <button type="button">Back</button>
       <form>
          <header>
             <label>
@@ -127,6 +129,7 @@
       </form>
    </section>
    <section data-template-name="displayPlan" class="plan">
+      <button type="button">Back</button>
       <header></header>
       <section>
          <header>Recipes In This Plan</header>
@@ -136,6 +139,7 @@
       <button type="button">Edit</button>
    </section>
    <section data-template-name="editPlan" class="plan">
+      <button type="button">Back</button>
       <form>
          <header>
             <label>
